@@ -1,0 +1,24 @@
+{
+  "name": "mern-ecommerce",
+  "version": "1.0.0",
+  "description": "MERN stack e-commerce app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server",
+    "dev": "nodemon backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tuaev/E-commerce-MERN.git"
+  },
+  "author": "Soslan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tuaev/E-commerce-MERN/issues"
+  },
+  "homepage": "https://github.com/Tuaev/E-commerce-MERN#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
