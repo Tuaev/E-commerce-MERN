@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import 'colors';
 import connectDB from './config/db.js';
 import products from './data/products.js';
 
@@ -21,4 +22,7 @@ app.get('/api/products/:id', (req, res) => {
 });
 
 const PORT = process.env.PORT;
-app.listen(PORT, console.log(`Server running |${process.env.NODE_ENV}| mode on port ${PORT}`));
+app.listen(
+  PORT,
+  console.log(`Server running |${process.env.NODE_ENV}| mode on port ${PORT}`.brightYellow)
+);
