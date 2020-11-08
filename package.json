@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "MERN stack e-commerce app",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node backend/server",
     "server": "nodemon backend/server.js",
@@ -21,7 +22,9 @@
   },
   "homepage": "https://github.com/Tuaev/E-commerce-MERN#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.13"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
