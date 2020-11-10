@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
 
 // @desc    Authenticate user & get token
@@ -14,7 +15,7 @@ const authUser = asyncHandler(async (req, res, next) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: null,
+      token: generateToken(user.id),
     });
   } else {
     res.status(401); // Unauthorized status code
@@ -22,4 +23,22 @@ const authUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { authUser };
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+const getUserProfile = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404); // Not found status code
+    throw new Error('User not found');
+  }
+});
+
+export { authUser, getUserProfile };
