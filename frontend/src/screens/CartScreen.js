@@ -23,7 +23,7 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
-    history.push('/login?redirect=shipping');
+    history.push('/signin?redirect=shipping');
   };
 
   return (
@@ -84,7 +84,10 @@ const CartScreen = ({ match, location, history }) => {
               <h2>
                 Subtotal ({cartItems.reduce((total, item) => total + item.qty, 0)}) items
               </h2>
-              ${cartItems.reduce((total, item) => total + item.price * item.qty, 0).toFixed(2)}
+              $
+              {cartItems
+                .reduce((total, item) => total + item.price * item.qty, 0)
+                .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
               <Button
