@@ -14,7 +14,7 @@ export const login = (email, password) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const { data } = await axios.get('/api/users/login', { email, password }, config);
+    const { data } = await axios.post('/api/users/login', { email, password }, config);
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (err) {
@@ -22,4 +22,9 @@ export const login = (email, password) => async (dispatch) => {
       err.response && err.response.data.message ? err.response.data.message : err.message;
     dispatch({ type: USER_LOGIN_FAIL, payload: payloadErrorMessage });
   }
+};
+
+export const logout = () => async (dispatch) => {
+  localStorage.removeItem('userInfo');
+  dispatch({ type: USER_LOGOUT });
 };
