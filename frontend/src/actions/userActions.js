@@ -14,6 +14,9 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
 } from '../constants/userConstants';
 import { ORDER_MY_LIST_RESET } from '../constants/orderConstants';
 
@@ -115,5 +118,31 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         ? err.response.data.message
         : err.messages;
     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: payloadErrorMessage });
+  }
+};
+
+export const getUsersList = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_LIST_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get('/api/users', config);
+
+    dispatch({ type: USER_LIST_SUCCESS, payload: data });
+  } catch (err) {
+    const payloadErrorMessage =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.messages;
+    dispatch({ type: USER_LIST_FAIL, payload: payloadErrorMessage });
   }
 };
