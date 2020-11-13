@@ -6,13 +6,17 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getUsersList } from '../actions/userActions';
 
-const UserListScreen = () => {
+const UserListScreen = ({ history }) => {
   const dispatch = useDispatch();
   const { loading, error, users } = useSelector((state) => state.userList);
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
-    dispatch(getUsersList());
-  }, [dispatch]);
+    if (userInfo && userInfo.isAdmin) {
+      return dispatch(getUsersList());
+    }
+    history.push('/signin');
+  }, [dispatch, history, userInfo]);
 
   const deleteHandler = () => {
     console.log('delete');
@@ -36,34 +40,35 @@ const UserListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>
-                  {user.isAdmin ? (
-                    <i className="fas fa-check" style={{ color: 'green' }}></i>
-                  ) : (
-                    <i className="fas fa-times" style={{ color: 'red' }}></i>
-                  )}
-                </td>
-                <td>
-                  <LinkContainer to={`/user/${user._id}/edit`}>
-                    <Button variant="light" className="btn-sm">
-                      <i className="fas fa-edit"></i>
+            {users &&
+              users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user._id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    {user.isAdmin ? (
+                      <i className="fas fa-check" style={{ color: 'green' }}></i>
+                    ) : (
+                      <i className="fas fa-times" style={{ color: 'red' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer to={`/user/${user._id}/edit`}>
+                      <Button variant="light" className="btn-sm">
+                        <i className="fas fa-edit"></i>
+                      </Button>
+                    </LinkContainer>
+                    <Button
+                      variant="danger"
+                      className="btn-sm"
+                      onClick={() => deleteHandler(user._id)}
+                    >
+                      <i className="fas fa-trash"></i>
                     </Button>
-                  </LinkContainer>
-                  <Button
-                    variant="danger"
-                    className="btn-sm"
-                    onClick={() => deleteHandler(user._id)}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </Button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       )}
