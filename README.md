@@ -12,9 +12,7 @@
       - Admin panel with CRUD functionality for products and users
 
 <p align="center">
-  <img style="max-width: 80%; -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);" src="frontend/public/images/homescreen.png">
+  <img style="max-width: 80%;"src="frontend/public/images/homescreen.png">
 </p>
 
 
