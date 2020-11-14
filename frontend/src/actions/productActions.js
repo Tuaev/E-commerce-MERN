@@ -9,6 +9,9 @@ import {
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
+  PRODUCT_CREATE_REQUEST,
+  PRODUCT_CREATE_SUCCESS,
+  PRODUCT_CREATE_FAIL,
 } from '../constants/productConstants';
 
 export const listProducts = () => async (dispatch) => {
@@ -57,5 +60,30 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         ? err.response.data.message
         : err.messages;
     dispatch({ type: PRODUCT_DELETE_FAIL, payload: payloadErrorMessage });
+  }
+};
+
+export const createProduct = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PRODUCT_CREATE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post('/api/products/', {}, config);
+    dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
+  } catch (err) {
+    const payloadErrorMessage =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.messages;
+    dispatch({ type: PRODUCT_CREATE_FAIL, payload: payloadErrorMessage });
   }
 };
